@@ -1,43 +1,40 @@
 pipeline {
     agent any
-    parameters {
-        string(name: 'env', defaultValue: 'dev', description: 'Environment')
-        string(name: 'branch', defaultValue: 'master', description: 'Enter the Git Branch for deploy')
-        choice(name: 'stages', choices: ['Terraform plan', 'Terraform Apply'])
-    }
     environment {
         AWS_DEFAULT_REGION = 'ap-southeast-2'
     }
 
     stages {
-        stage('Git Pull') {
+        stage('Download GIT Hub Repo') {
             steps {
-                echo 'Pulling the code from Git Repo'
+                echo 'Downloading..'
                 script {
-                    //git credentialsId: 'sanjayrohilla13', branch: 'master', url: 'https://github.com/sanjayrohilla13/ecr-upgarde.git', poll: false
-                    git changelog: false, poll: false, url: 'https://github.com/sanjayrohilla13/coles-code-challenge.git'                
+                    git credentialsId: 'sanjayrohilla13', branch: 'master', url: 'https://github.com/sanjayrohilla13/coles-code-challenge.git', poll: false
                 }
             }
         }
 
-        stage('Build') {
+        // Login in AWS ECR for getting Authentication Token
+        stage('Docker Login') {
             steps {
-               script {
-                switch(params.env) {
-                case 'dev':
-                    env.AWS_ACC_NO=11111111111;
-                    break;
-                case 'preprod':
-                    env.AWS_ACC_NO=22222222222;
-                    break;
-                case 'prod':
-                    env.AWS_ACC_NO=333333333333;
-                    break;
-               }
-               println "${env.AWS_ACC_NO}" 
-               echo 'Building....'
-               }
+                withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
+                // some block
+                //sh 'make docker-login'
+                echo 'Logging in..'
+                sh '''
+                    aws s3 ls
+                '''
+                }    
             }
-        }    
+        }
+
+        stage('Pull ECR Image') {
+            steps {
+                echo 'Pushing to ECR....'
+                sh '''
+                    aws s3 ls
+                '''
+            }
+        }
     }
 }
