@@ -1,9 +1,11 @@
+def STAGES_TO_RUN = params.stages
+
 pipeline {
     agent any
     parameters {
         string(name: 'env', defaultValue: 'dev', description: 'Environment')
         string(name: 'branch', defaultValue: 'master', description: 'Enter the Git Branch for deploy')
-        choice(name: 'stages', choices: ['Terraform plan', 'Terraform Apply'])
+        choice(name: 'stages', choices: ['plan', 'apply', 'destroy'])
     }
 
     environment {
@@ -21,24 +23,25 @@ pipeline {
         }
 
         // Login in AWS ECR for getting Authentication Token
-        stage('Build') {
+        stage('Plan') {
+            when{
+                expression{ STAGES_TO_RUN.contains('plan')}
+            }
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
                 // some block
                 //sh 'make docker-login'
                 echo 'Logging in..'
                 sh '''
-                    pwd
                     cd terraform/domain/dev-app
                     terraform init
-                    ls
-                    aws s3 ls
+                    terraform plan
                 '''
                 }    
             }
         }
 
-        stage('Pull ECR Image') {
+        stage('Deploy') {
             steps {
                 echo 'Pushing to ECR....'
                 sh '''
