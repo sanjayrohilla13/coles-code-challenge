@@ -32,7 +32,7 @@ pipeline {
             steps {
                 echo 'Pushing to ECR....'
                 sh '''
-                    aws s3 ls
+                    echo "Pull Stage Completed"
                 '''
             }
         }
