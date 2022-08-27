@@ -21,13 +21,16 @@ pipeline {
         }
 
         // Login in AWS ECR for getting Authentication Token
-        stage('Docker Login') {
+        stage('Build') {
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
                 // some block
                 //sh 'make docker-login'
                 echo 'Logging in..'
                 sh '''
+                    cd ~/terraform/domain/dev-app
+                    terraform init
+                    pwd
                     aws s3 ls
                 '''
                 }    
