@@ -29,8 +29,7 @@ pipeline {
                 echo 'Logging in..'
                 sh '''
                     pwd
-                    cd /terraform/domain/dev-app
-                    terraform init
+                    ls
                     aws s3 ls
                 '''
                 }    
