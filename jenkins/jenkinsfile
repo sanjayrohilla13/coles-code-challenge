@@ -1,11 +1,17 @@
 pipeline {
     agent any
+    parameters {
+        string(name: 'env', defaultValue: 'dev', description: 'Environment')
+        string(name: 'branch', defaultValue: 'master', description: 'Enter the Git Branch for deploy')
+        choice(name: 'stages', choices: ['Terraform plan', 'Terraform Apply'])
+    }
+
     environment {
         AWS_DEFAULT_REGION = 'ap-southeast-2'
     }
 
     stages {
-        stage('Download GIT Hub Repo') {
+        stage('GIT Pull') {
             steps {
                 echo 'Downloading..'
                 script {
