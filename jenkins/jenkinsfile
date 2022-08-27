@@ -28,8 +28,6 @@ pipeline {
                 //sh 'make docker-login'
                 echo 'Logging in..'
                 sh '''
-                    cd ~/terraform/domain/dev-app
-                    terraform init
                     pwd
                     aws s3 ls
                 '''
