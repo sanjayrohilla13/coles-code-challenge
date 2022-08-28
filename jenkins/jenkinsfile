@@ -54,5 +54,21 @@ pipeline {
                 }    
             }
         }
+        // Destroy Stage
+        stage('Destroy') {
+            when{
+                expression{ STAGES_TO_RUN.contains('destroy')}
+            }
+            steps {
+                withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
+                echo 'Infrastructure Destroy'
+                sh '''
+                    cd terraform/domain/dev-app
+                    terraform plan -destroy
+                    terraform destroy --auto-approve
+                '''
+                }    
+            }
+        }
     }
 }
