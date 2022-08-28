@@ -5,10 +5,10 @@ resource "aws_security_group" "private_sg" {
   vpc_id      = var.app_vpc_id
 
   ingress {
-    description = "Data Base Port"
-    from_port   = 3306
-    to_port     = 3306
-    protocol    = "tcp"
+    description     = "Data Base Port"
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
     security_groups = [aws_security_group.public_sg.id]
   }
 

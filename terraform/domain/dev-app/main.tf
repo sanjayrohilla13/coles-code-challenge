@@ -19,6 +19,11 @@ module "ec2" {
   vpc_cidr_block     = var.vpc_cidr_block
   private_cidr_block = var.private_cidr_block
   public_cidr_block  = var.public_cidr_block
+  key_name           = var.key_name
+  instance_type      = var.instance_type
+  desired_capacity   = var.desired_capacity
+  max_size           = var.max_size
+  min_size           = var.min_size
 }
 
 module "rds" {

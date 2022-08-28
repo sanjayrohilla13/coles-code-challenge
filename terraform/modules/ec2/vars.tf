@@ -24,16 +24,43 @@ variable "public_cidr_block" {
 }
 
 variable "app_vpc_id" {
-    description = "Application VPC id"
-    type = string
+  description = "Application VPC id"
+  type        = string
 }
 
 variable "private_subnet_ids" {
-    description = "Private Subnet Ids"
-    type = list(string)
+  description = "Private Subnet Ids"
+  type        = list(string)
 }
 
 variable "public_subnet_ids" {
-    description = "Public Subnet Ids"
-    type = list(string)
+  description = "Public Subnet Ids"
+  type        = list(string)
+}
+
+#EC2 Variables
+variable "key_name" {
+  description = "EC2 Key Name"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Instance Type"
+  type        = string
+}
+
+#ASG Variables
+variable "desired_capacity" {
+  description = "Desired Capacity"
+  type        = number
+}
+
+variable "min_size" {
+  description = "Min Required Instances"
+  type        = number
+}
+
+variable "max_size" {
+  description = "Max Required Instances"
+  type        = number
 }

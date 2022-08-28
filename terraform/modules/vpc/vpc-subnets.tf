@@ -21,7 +21,6 @@ resource "aws_subnet" "app_private_subnet" {
 }
 
 # Public Subnet Creation for the application
-
 resource "aws_subnet" "app_public_subnet" {
   count             = length(var.public_cidr_block)
   vpc_id            = aws_vpc.app_vpc.id

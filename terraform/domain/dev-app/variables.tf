@@ -35,3 +35,28 @@ variable "public_cidr_block" {
 }
 
 #EC2 Module Variables
+variable "key_name" {
+  description = "EC2 Key Name"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Instance Type"
+  type        = string
+}
+
+#ASG Variables
+variable "desired_capacity" {
+  description = "Desired Capacity"
+  type        = number
+}
+
+variable "min_size" {
+  description = "Min Required Instances"
+  type        = number
+}
+
+variable "max_size" {
+  description = "Max Required Instances"
+  type        = number
+}
