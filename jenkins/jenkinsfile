@@ -59,7 +59,7 @@ pipeline {
 // Destroy Plan Stage
         stage('Destroy Plan') {
             when{
-                expression{ STAGES_TO_RUN.contains('plan')}
+                expression{ STAGES_TO_RUN.contains('destroy-plan')}
             }
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
