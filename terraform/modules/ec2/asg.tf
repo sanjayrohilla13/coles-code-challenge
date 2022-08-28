@@ -6,6 +6,7 @@ resource "aws_launch_configuration" "app_launch_config" {
   key_name                    = var.key_name
   associate_public_ip_address = true
   user_data                   = templatefile("${path.module}/user-data/script.sh", {})
+  
   lifecycle {
     create_before_destroy = true
   }

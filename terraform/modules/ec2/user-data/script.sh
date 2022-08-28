@@ -1,3 +1,3 @@
 #!/bin/bash
 yum update -y
-yum install mysql
+yum install mysql -y

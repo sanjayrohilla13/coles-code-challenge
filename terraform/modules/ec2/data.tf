@@ -17,3 +17,11 @@ data "aws_ami" "ec2_ami" {
     values = ["hvm"]
   }
 }
+
+# Get Instance 
+data "aws_instances" "app_instance" {
+  instance_tags = {
+    Name = "${var.app_name}-${var.env}-web_server"
+  }
+    instance_state_names = ["running"]
+}
