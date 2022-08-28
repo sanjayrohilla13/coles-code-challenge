@@ -1,3 +1,4 @@
+// provision VPC and Subnets
 module "vpc" {
   source             = "../../modules/vpc"
   env                = var.env
@@ -9,6 +10,7 @@ module "vpc" {
   public_cidr_block  = var.public_cidr_block
 }
 
+#provision the ASG
 module "ec2" {
   source             = "../../modules/ec2"
   env                = var.env
@@ -30,8 +32,10 @@ module "rds" {
   source                     = "../../modules/rds"
   app_name                   = var.app_name
   env                        = var.env
+  az_list                    = var.az_list
   db_engine                  = var.db_engine
   db_engine_version          = var.db_engine_version
+  db_parameter_group_name    = var.db_parameter_group_name
   db_instance_class          = var.db_instance_class
   db_allocated_storage       = var.db_allocated_storage
   private_subnet_ids         = module.vpc.private_subnet_ids

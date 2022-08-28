@@ -8,6 +8,11 @@ variable "app_name" {
   type        = string
 }
 
+variable "az_list" {
+  description = "List of the AZ to deploy the application"
+  type        = list(string)
+}
+
 variable "private_subnet_ids" {
   description = "Private Subnet Ids"
   type        = list(string)
@@ -25,6 +30,11 @@ variable "db_engine" {
 
 variable "db_engine_version" {
   description = "Data Base Engine Version"
+  type        = string
+}
+
+variable "db_parameter_group_name" {
+  description = "Data Base Parameter Group Name"
   type        = string
 }
 

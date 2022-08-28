@@ -81,3 +81,8 @@ variable "db_allocated_storage" {
   description = "RDS Instance Storage"
   type        = number
 }
+
+variable "db_parameter_group_name" {
+  description = "Data Base Parameter Group Name"
+  type        = string
+}
