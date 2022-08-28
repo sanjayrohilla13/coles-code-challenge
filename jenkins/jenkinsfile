@@ -41,7 +41,7 @@ pipeline {
   // Deploy Stage
         stage('Deploy') {
             when{
-                expression{ STAGES_TO_RUN.contains('deploy')}
+                expression{ STAGES_TO_RUN.contains('apply')}
             }
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
