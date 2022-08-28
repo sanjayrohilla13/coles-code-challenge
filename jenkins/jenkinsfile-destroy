@@ -5,7 +5,7 @@ pipeline {
     parameters {
         string(name: 'env', defaultValue: 'dev', description: 'Environment')
         string(name: 'branch', defaultValue: 'master', description: 'Enter the Git Branch for deploy')
-        choice(name: 'stages', choices: ['terraform plan', 'terraform apply'])
+        choice(name: 'stages', choices: ['destroy plan', 'terraform destroy'])
     }
 
     environment {
@@ -22,35 +22,35 @@ pipeline {
             }
         }
 
-// Deploy Plan Stage
-        stage('Terraform Plan') {
+// Destroy Plan Stage
+        stage('Destroy Plan') {
             when{
-                expression{ STAGES_TO_RUN.contains('terraform plan')}
+                expression{ STAGES_TO_RUN.contains('destroy plan')}
             }
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
-                echo 'Deployment Plan'
+                echo 'Destroy Plan'
                 sh '''
                     cd terraform/domain/dev-app
                     terraform init
-                    terraform plan
+                    terraform plan --destroy
                 '''
                 }    
             }
         }
 
-// Deploy Stage
-        stage('Terraform Apply') {
+// Destroy Stage
+        stage('Terraform Destroy') {
             when{
-                expression{ STAGES_TO_RUN.contains('terraform apply')}
+                expression{ STAGES_TO_RUN.contains('terraform destroy')}
             }
             steps {
                 withCredentials([aws(accessKeyVariable:'AWS_ACCESS_KEY_ID',credentialsId:'jenkins-aws-user',secretKeyVariable:'AWS_SECRET_ACCESS_KEY')]) {
-                echo 'Deployment'
+                echo 'Infrastructure Destroy'
                 sh '''
                     cd terraform/domain/dev-app
-                    terraform plan
-                    terraform apply --auto-approve
+                    terraform plan -destroy
+                    terraform destroy --auto-approve
                 '''
                 }    
             }
