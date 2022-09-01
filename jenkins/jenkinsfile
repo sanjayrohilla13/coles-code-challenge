@@ -32,7 +32,7 @@ pipeline {
                 echo 'Deployment Plan'
                 sh '''
                     cd terraform/domain/dev-app
-                    terraform init
+                    terraform init --reconfigure
                     terraform plan
                 '''
                 }    
